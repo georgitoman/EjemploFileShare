@@ -12,44 +12,44 @@ namespace EjemploFileShare.Services
     {
         private ShareDirectoryClient root;
 
-        public ServiceFileShare(String keys)
+        public ServiceFileShare(String con)
         {
             ShareClient client = 
-                new ShareClient(keys, "filesharegsr");
+                new ShareClient(con, "filesharegsr");
             this.root = client.GetRootDirectoryClient();
         }
 
         public async Task<List<String>> GetFilesAsync()
         {
-            List<String> files = new List<string>();
-            await foreach (var file in this.root.GetFilesAndDirectoriesAsync())
+            List<String> archivos = new List<string>();
+            await foreach (var archivo in this.root.GetFilesAndDirectoriesAsync())
             {
-                files.Add(file.Name);
+                archivos.Add(archivo.Name);
             }
-            return files;
+            return archivos;
         }
 
-        public async Task<String> GetFileContentAsync(String filename)
+        public async Task<String> GetFileContentAsync(String nombre)
         {
-            ShareFileClient file = this.root.GetFileClient(filename);
-            var data = await file.DownloadAsync();
+            ShareFileClient archivo = this.root.GetFileClient(nombre);
+            var data = await archivo.DownloadAsync();
             Stream stream = data.Value.Content;
             StreamReader reader = new StreamReader(stream);
             return await reader.ReadToEndAsync();
         }
 
-        public async Task DeleteFileAsync(String filename)
+        public async Task DeleteFileAsync(String nombre)
         {
-            ShareFileClient file = this.root.GetFileClient(filename);
-            await file.DeleteAsync();
+            ShareFileClient archivo = this.root.GetFileClient(nombre);
+            await archivo.DeleteAsync();
         }
 
-        public async Task UploadFileAsync(String filename
+        public async Task UploadFileAsync(String nombre
             , Stream stream)
         {
-            ShareFileClient file = this.root.GetFileClient(filename);
-            await file.CreateAsync(stream.Length);
-            await file.UploadAsync(stream);
+            ShareFileClient archivo = this.root.GetFileClient(nombre);
+            await archivo.CreateAsync(stream.Length);
+            await archivo.UploadAsync(stream);
         }
     }
 }

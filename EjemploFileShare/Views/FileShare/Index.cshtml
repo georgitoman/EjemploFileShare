@@ -1,27 +1,27 @@
 ﻿@model List<String>
-<h1>Azure Files</h1>
+<h1>Azure File Share</h1>
 
 <a asp-controller="FileShare"
-   asp-action="UploadFile">
-    Upload File Azure
+   asp-action="Subir">
+    Subir archivo
 </a>
 
 <ul class="list-group">
-    @foreach (String f in Model)
+    @foreach (String nom in Model)
     {
         <li class="list-group-item">
-            @f 
+            @nom 
             <a asp-controller="FileShare" class="btn btn-info"
                asp-action="Index"
-               asp-route-filename="@f">
-                Read File
+               asp-route-filename="@nom">
+                Leer
             </a>
             <a asp-controller="FileShare" class="btn btn-danger"
-                asp-action="DeleteFile"
-                asp-route-filename="@f">
-                Delete file
+                asp-action="Eliminar"
+                asp-route-filename="@nom">
+                Eliminar
             </a>
         </li>
     }
 </ul>
-<p style="color:blue">@ViewData["CONTENT"]</p>
+<p style="color:blue">@ViewData["TEXTO"]</p>

@@ -10,11 +10,11 @@ namespace EjemploFileShare.Controllers
 {
     public class FileShareController : Controller
     {
-        ServiceFileShare servicefiles;
+        ServiceFileShare Service;
 
-        public FileShareController(ServiceFileShare servicefiles)
+        public FileShareController(ServiceFileShare servicefileshare)
         {
-            this.servicefiles = servicefiles;
+            this.Service = servicefileshare;
         }
 
         public async Task<IActionResult> Index(String filename)
@@ -22,33 +22,32 @@ namespace EjemploFileShare.Controllers
             if (filename != null)
             {
                 String content =
-                    await this.servicefiles.GetFileContentAsync(filename);
-                ViewData["CONTENT"] = content;
+                    await this.Service.GetFileContentAsync(filename);
+                ViewData["TEXTO"] = content;
             }
-            List<String> files =await this.servicefiles.GetFilesAsync();
+            List<String> files =await this.Service.GetFilesAsync();
             return View(files);
         }
 
-        public IActionResult UploadFile()
+        public IActionResult Subir()
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> UploadFile(IFormFile file)
+        public async Task<IActionResult> Subir(IFormFile file)
         {
             String filename = file.FileName;
             using (var stream = file.OpenReadStream())
             {
-                await this.servicefiles.UploadFileAsync(filename, stream);
+                await this.Service.UploadFileAsync(filename, stream);
             }
-            ViewData["MENSAJE"] = "Archivo subido correctamente";
             return View();
         }
 
-        public async Task<IActionResult> DeleteFile(String filename)
+        public async Task<IActionResult> Eliminar(String filename)
         {
-            await this.servicefiles.DeleteFileAsync(filename);
+            await this.Service.DeleteFileAsync(filename);
             return RedirectToAction("Index");
         }
     }

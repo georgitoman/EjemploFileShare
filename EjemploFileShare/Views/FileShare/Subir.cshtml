@@ -1,15 +1,13 @@
 ﻿<h1>Upload File Azure</h1>
 
 <a asp-controller="FileShare" asp-action="Index">
-    Volver a Index
+    Volver
 </a>
 
 <form enctype="multipart/form-data" method="post">
     <input type="file" name="file"
            class="form-control"/>
     <button type="submit" class="btn btn-info">
-        Upload File
+        Subir
     </button>
 </form>
-
-<h2 style="color:blue">@ViewData["MENSAJE"]</h2>
